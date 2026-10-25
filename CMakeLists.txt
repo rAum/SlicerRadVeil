@@ -9,8 +9,8 @@ set(EXTENSION_CATEGORY "Utilities")
 set(EXTENSION_CONTRIBUTORS "Piotr Gródek")
 set(EXTENSION_DESCRIPTION "Face and ear anonymization (defacing) of MRI and CT head volumes with RadVeil, verified by re-running a face detector on the result. Before/after review in linked 3D views, region preview, brain segment, and anonymization of other series of the same session. Voxels outside the anonymized region are preserved bit-exact. A de-identification aid, not a medical device; provided as is, without warranty.")
 set(EXTENSION_ICONURL "https://raw.githubusercontent.com/rAum/radveil-slicer/main/RadVeil.png")
-# Replace with the real Slicer screenshot from CI (Screenshots/RadVeil.png) before submitting.
-set(EXTENSION_SCREENSHOTURLS "https://raw.githubusercontent.com/rAum/radveil-slicer/main/docs/images/hero.png")
+# Real Slicer screenshot from CI (Real radveil on MRHead + screenshots job, `screenshots` artifact).
+set(EXTENSION_SCREENSHOTURLS "https://raw.githubusercontent.com/rAum/radveil-slicer/main/Screenshots/RadVeil.png")
 set(EXTENSION_DEPENDS "NA") # Specified as a list or "NA" if no dependencies
 set(EXTENSION_BUILD_SUBDIRECTORY ".")
 
