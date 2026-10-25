@@ -138,7 +138,7 @@ tests/                       unit tests (no Slicer) + in-Slicer CI runner
 tools/                       packaging check/staging, CI helpers, version range tool,
                              screenshots (in Slicer) and graphics (make_graphics.py)
 docs/images/                 README graphics; radveil/ holds RadVeil's MRHead renders
-.github/                     CI, release and radveil-watch workflows
+.github/                     CI and release workflows, Slicer setup action
 RadVeil.json                 entry for Slicer/ExtensionsIndex (tracks `release`)
 ```
 

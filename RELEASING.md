@@ -7,7 +7,7 @@
         │
         ▼
  release.yml ── CI gate: unit tests + self-test inside Slicer Stable & Preview
-        │        on Linux, macOS, Windows (the exact files the package ships)
+        │        on Linux (the exact files the package ships) + real radveil
         ├── GitHub release with radveil-slicer-v0.2.0.zip (manual/offline install)
         └── fast-forwards the `release` branch to the tag
                  │
@@ -27,10 +27,11 @@ The radveil Python package itself is not bundled: the module installs
 
 | workflow | when | what |
 |---|---|---|
-| `ci.yml` | push, PR, nightly, manual | unit tests (3 OS × Python 3.9/3.12); packaging check; self-test in real Slicer Stable + Preview on 3 OS with the mock backend; the published radveil wheel installed into Slicer's Python and run on MRHead. Nightly failures open an issue. |
-| `release.yml` | tag `v*` on `main` | CI gate, GitHub release with the module zip, fast-forward `release`. Tags with a suffix (`v0.2.0-rc1`) make a GitHub pre-release only. |
-| `radveil-watch.yml` | weekly, `radveil-released` dispatch, manual | new radveil inside the range → re-run CI; outside → PR widening the range, with CI. |
-| Dependabot | monthly | keeps the actions up to date. |
+| `ci.yml` | push, PR, manual, called by `release.yml` | unit tests (Linux/macOS/Windows × Python 3.9/3.12); packaging check; self-test of the packaged module in the latest Slicer Stable + Preview (Linux, mock backend); the published radveil wheel installed into Slicer Stable's Python and run on MRHead, with screenshots uploaded as the `screenshots` artifact. |
+| `release.yml` | tag `v*` on `main` | CI gate, GitHub release with the module zip and the CHANGELOG section as notes, fast-forward `release`. Tags with a suffix (`v0.2.0-rc1`) make a GitHub pre-release only. |
+
+Not set up yet: a nightly CI run, a weekly check for new radveil releases
+(`radveil-watch`), and Dependabot for the actions.
 
 Slicer is downloaded from download.slicer.org (latest Stable / latest Preview
 for the runner's OS and architecture), checked against its published SHA-512
@@ -46,7 +47,7 @@ needed: this is a pure-Python extension.
 3. If `release` is a protected branch, allow GitHub Actions to push to it
    (or the release workflow cannot ship).
 4. Real screenshot: download the `screenshots` artifact of a green CI run
-   (*Real radveil* job, Linux), commit `RadVeil.png` as
+   (*Real radveil on MRHead + screenshots* job), commit `RadVeil.png` as
    `Screenshots/RadVeil.png` and point `EXTENSION_SCREENSHOTURLS` in
    `CMakeLists.txt` to it. Check it looks right first: it is what the
    Extensions Manager shows.
@@ -69,7 +70,7 @@ token that has *Contents: read and write* on radveil-slicer stored as
         run: gh api repos/rAum/radveil-slicer/dispatches -f event_type=radveil-released
 ```
 
-Without it, the weekly check picks new versions up within a week.
+This needs the `radveil-watch` workflow, which is not set up yet.
 
 ## Releasing
 
@@ -84,7 +85,7 @@ Extensions Manager.
 
 ## When something breaks
 
-- **Preview self-test fails** (nightly issue): Slicer's API changed. Fix on
+- **Preview self-test fails**: Slicer's API changed. Fix on
   `main` and release. If the fix is incompatible with the current Stable,
   keep a branch for Stable (e.g. `5.10`) and point that ExtensionsIndex
   branch's `scm_revision` at it.

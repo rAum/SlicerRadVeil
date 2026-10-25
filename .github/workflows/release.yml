@@ -1,0 +1,68 @@
+name: Release
+
+# Push a vX.Y.Z tag on main: the full CI must pass, then a GitHub release with
+# the module zip is published and the `release` branch (what the Slicer
+# Extensions Index builds) is fast-forwarded to the tag. Tags with a suffix
+# (v0.2.0-rc1) make a GitHub pre-release only and leave `release` alone.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    needs: ci
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Check the tag
+        id: tag
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          version="${tag#v}"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
+            echo "::error::Tag $tag is not vX.Y.Z or vX.Y.Z-suffix"; exit 1
+          fi
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Tag $tag is not on main"; exit 1
+          fi
+          prerelease=false
+          [[ "$version" == *-* ]] && prerelease=true
+          if [ "$prerelease" = false ] && ! grep -qx "## $version" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no '## $version' section"; exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$prerelease" >> "$GITHUB_OUTPUT"
+      - name: Release notes from CHANGELOG.md
+        run: |
+          awk -v v="## ${{ steps.tag.outputs.version }}" \
+            '$0 == v {on=1; next} on && /^## / {exit} on {print}' CHANGELOG.md > "$RUNNER_TEMP/notes.md"
+          [ -s "$RUNNER_TEMP/notes.md" ] || echo "Pre-release ${GITHUB_REF_NAME}." > "$RUNNER_TEMP/notes.md"
+          cat "$RUNNER_TEMP/notes.md"
+      - name: Module zip
+        run: python3 tools/stage_module.py "$RUNNER_TEMP/stage" --zip "radveil-slicer-${GITHUB_REF_NAME}.zip"
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          flags=()
+          [ "${{ steps.tag.outputs.prerelease }}" = true ] && flags+=(--prerelease)
+          gh release create "$GITHUB_REF_NAME" "radveil-slicer-${GITHUB_REF_NAME}.zip" \
+            --title "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md" --verify-tag "${flags[@]}"
+      - name: Fast-forward the release branch
+        if: steps.tag.outputs.prerelease == 'false'
+        run: |
+          # A plain (non-force) push: it fails if `release` has commits the tag lacks.
+          git push origin "$GITHUB_SHA:refs/heads/release"
