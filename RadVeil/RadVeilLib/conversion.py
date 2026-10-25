@@ -121,6 +121,16 @@ def json_safe(obj):
     return str(obj)
 
 
+DISCLAIMER = (
+    "RadVeil is a de-identification aid, not a medical device and not a complete de-identification "
+    "process; it does not by itself make data compliant with any privacy regulation. Only voxels in "
+    "the anonymized region were changed: metadata, file names and DICOM tags were not. The face "
+    "detector check shows resistance to that detector, not to every re-identification attack. "
+    "Provided as is, without warranty of any kind and without liability, to the extent permitted by "
+    "law. Review every output before sharing data."
+)
+
+
 def report_to_json(report, **extra):
     data = json_safe(report)
     data.update(json_safe(extra))

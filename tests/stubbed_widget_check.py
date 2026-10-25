@@ -116,6 +116,7 @@ rep = json.loads(r.outputVolume.attrs["RadVeil.Report"])
 print("report params:", rep["parameters"])
 assert rep["parameters"]["ear_mode"] == "cut" and rep["parameters"]["brain_check"] is True
 assert rep["parameters"]["escalate_to_block"] is False  # Slicer applies the chosen method exactly
+assert "not a medical device" in rep["disclaimer"]
 print("verdict:", w.verdictLabel.text.replace("<br>", "\n  ")[:600])
 assert dialogs and dialogs[-1].close.called, "progress dialog not closed"
 

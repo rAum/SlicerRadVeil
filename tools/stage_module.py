@@ -74,7 +74,7 @@ def stage(out_dir, zip_path=None):
         dest = os.path.join(target, rel)
         os.makedirs(os.path.dirname(dest), exist_ok=True)
         shutil.copy2(os.path.join(MODULE_DIR, rel), dest)
-    for extra in ("README.md", "LICENSE"):
+    for extra in ("README.md", "LICENSE", "NOTICE"):
         shutil.copy2(os.path.join(ROOT, extra), os.path.join(out_dir, extra))
     if zip_path:
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:

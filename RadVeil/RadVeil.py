@@ -111,15 +111,28 @@ outside the anonymized region are not changed.
 <br><br>
 <b>Always review the output before sharing data.</b> Only voxels are
 changed: names in the scene, file names and DICOM tags are not; use DICOM
-anonymization when exporting.
+anonymization when exporting. The face detector check shows resistance to
+that kind of detector, not to every possible re-identification attack.
+<br><br>
+<b>Disclaimer.</b> Early release with limited validation. RadVeil and this
+extension are a de-identification <i>aid</i>, not a medical device and not
+a complete de-identification process. They are not intended for diagnosis
+or treatment and do not by themselves make data compliant with any privacy
+regulation (e.g. HIPAA, GDPR). Provided "as is", without warranty of any
+kind; to the maximum extent permitted by law, the authors accept no
+liability for damages or losses arising from their use. You are responsible
+for validating them for your use case.
 <br><br>
 <a href="https://rAum.github.io/radveil/docs.html">RadVeil documentation</a>
 """
         self.parent.acknowledgementText = """
-RadVeil is developed by Piotr Gródek (Apache-2.0). It embeds the MediaPipe
-BlazeFace and Face Mesh models (Apache-2.0, Google LLC) and the SynthStrip
-network weights (MIT; Hoopes et al., NeuroImage 2022). RadVeil is not a
-medical device.
+RadVeil and this extension are developed by Piotr Gródek as a personal,
+open-source project (Apache-2.0), not affiliated with or endorsed by any
+employer of the author. RadVeil embeds the MediaPipe BlazeFace and Face Mesh
+models (Apache-2.0, Google LLC) and the SynthStrip network weights (MIT;
+please cite Hoopes et al., NeuroImage 260 (2022) 119474 when publishing).
+These names identify components only and imply no endorsement by their
+owners. Provided "as is", without warranty; not a medical device.
 """
 
 
@@ -166,6 +179,15 @@ class RadVeilWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         buttons.addWidget(self.previewButton, 1)
         buttons.addWidget(self.applyButton, 2)
         self.layout.addLayout(buttons)
+
+        disclaimer = qt.QLabel(
+            "De-identification aid, not a medical device; provided as is, without warranty. "
+            "Review every output before sharing data."
+        )
+        disclaimer.wordWrap = True
+        disclaimer.setStyleSheet("color: gray; font-size: 10px;")
+        disclaimer.toolTip = conversion.DISCLAIMER
+        self.layout.addWidget(disclaimer)
 
         self._setupResults()
         self.layout.addStretch(1)
@@ -1322,6 +1344,7 @@ class RadVeilLogic(ScriptedLoadableModuleLogic):
                 self._writeOutputVolume(node, out, merged)
                 out.SetAttribute(REPORT_ATTRIBUTE, conversion.report_to_json(
                     seriesReport, slicer_extension="SlicerRadVeil", propagated_from_landmarks=True,
+                    disclaimer=conversion.DISCLAIMER,
                     radveil_version=getattr(rv, "__version__", "unknown"), parameters=deface))
             seriesReport["series_name"] = node.GetName()
             otherResults.append((node, out, seriesReport))
@@ -1334,6 +1357,7 @@ class RadVeilLogic(ScriptedLoadableModuleLogic):
         reportJson = conversion.report_to_json(
             report,
             slicer_extension="SlicerRadVeil",
+            disclaimer=conversion.DISCLAIMER,
             radveil_version=getattr(rv, "__version__", "unknown"),
             backend="mock" if backend.is_mock(rv) else "radveil",
             parameters=kwargs,

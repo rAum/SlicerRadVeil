@@ -35,9 +35,12 @@ unchanged (bit-exact, same voxel type).
 - **A plain-language verdict** (green, amber or red) and RadVeil's full JSON
   report for your study records.
 
-> **RadVeil is an early release with limited validation.** It is a
-> de-identification aid, not a medical device and not a complete
-> de-identification process. Review every output before sharing data.
+> [!WARNING]
+> **Early release (0.1), limited validation.** RadVeil has been tested on a
+> small set of public scans only. It is a de-identification *aid*, not a
+> medical device and not a complete de-identification process. It is
+> provided as is, without warranty (see [Disclaimer](#disclaimer)).
+> **Review every output before sharing data.**
 
 ## Install
 
@@ -163,10 +166,28 @@ RadVeil.json                 entry for Slicer/ExtensionsIndex (tracks `release`)
   API (masks an anterior shell of the head) so the panel can be developed and
   self-tested offline, without installing radveil. It does **not** anonymize.
 
+## Guarantees and limits
+
+- Voxels outside the anonymized region are bit-identical to the input, with
+  the same voxel type and geometry.
+- Only voxels change. Node names, file names, NIfTI/DICOM headers and other
+  metadata are **not** scrubbed; that is the job of your de-identification
+  pipeline (e.g. DICOM anonymization on export).
+- The face detector check shows resistance to that class of detector, not
+  to every conceivable re-identification attack. The *Anonymized region*
+  segmentation records exactly which voxels changed, for independent audit.
+- When RadVeil refuses (no plausible face), nothing is changed: treat it as
+  an item for human review, never as a processed scan.
+- 3D volumes only. CT support is validated on synthetic phantoms only.
+
+See RadVeil's [legal and data-governance notes](https://github.com/rAum/radveil/blob/main/docs/legal.md)
+for licensing, privacy-regulation context and the optional dlib detector.
+
 ## Releases and distribution
 
 Releases are automated: pushing a `vX.Y.Z` tag on `main` runs the full test
-suite inside real Slicer (Stable and Preview, Linux/macOS/Windows), publishes
+suite, including the self-test inside real Slicer (Stable and Preview, Linux)
+and the real radveil package on MRHead, publishes
 a GitHub release with a module zip, and moves the `release` branch that the
 Slicer Extensions Index builds from. The extension then appears in the
 Extensions Manager the next day. See [RELEASING.md](RELEASING.md) for the
@@ -174,7 +195,33 @@ pipeline, one-time setup and the Extensions Index submission.
 
 ## License
 
-Apache-2.0, like RadVeil. See [LICENSE](LICENSE). RadVeil embeds the
-MediaPipe BlazeFace / Face Mesh models (Apache-2.0, Google LLC) and the
-SynthStrip weights (MIT; Hoopes et al., NeuroImage 2022). The head images in
-the graphics are RadVeil's renders of 3D Slicer's public MRHead sample.
+Copyright 2026 Piotr Gródek and the radveil-slicer contributors. Licensed
+under the [Apache License, Version 2.0](LICENSE); see also [NOTICE](NOTICE).
+
+The extension installs the separately distributed `radveil` package, which
+keeps its own licenses: it embeds the MediaPipe BlazeFace / Face Mesh models
+(Apache-2.0, Google LLC) and the SynthStrip weights (MIT; please cite Hoopes
+et al., NeuroImage 260 (2022) 119474 when you publish results). The head
+images in the graphics are RadVeil's renders of 3D Slicer's public MRHead
+sample, which its donor gave to the 3D Slicer project to be used without
+restrictions. Security issues: see [SECURITY.md](SECURITY.md).
+
+## Disclaimer
+
+RadVeil and this extension are a personal, open-source project developed in
+the author's spare time, on personal equipment. They are not affiliated with,
+sponsored or endorsed by, and do not represent any current or former employer
+of the author; the views and code here are the author's own. Names of
+third-party projects (3D Slicer, MediaPipe, SynthStrip, dlib) are used only
+to identify the software and data the extension works with and do not imply
+endorsement by their owners.
+
+Generative AI tools were used in developing this extension, including code
+and documentation.
+
+The software is provided "as is", without warranty of any kind (see the
+license). To the maximum extent permitted by applicable law, the authors
+accept no liability for any damages or losses arising from its use. It is
+not a medical device, is not intended for diagnosis or treatment, and does
+not by itself make data compliant with any privacy regulation (e.g. HIPAA or
+GDPR). You are responsible for validating it for your use case.

@@ -22,7 +22,7 @@ def test_stage_and_zip(tmp_path):
     for rel in stage_module.listed_files():
         assert os.path.isfile(os.path.join(target, rel)), rel
     names = zipfile.ZipFile(zpath).namelist()
-    assert "RadVeil/RadVeil.py" in names and "README.md" in names and "LICENSE" in names
+    assert "RadVeil/RadVeil.py" in names and "README.md" in names and "LICENSE" in names and "NOTICE" in names
 
 
 def test_index_entry_and_cmake_agree():

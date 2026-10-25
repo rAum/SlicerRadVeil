@@ -1,0 +1,22 @@
+# RadVeil extension for 3D Slicer (radveil-slicer)
+
+Copyright 2026 Piotr Gródek and the radveil-slicer contributors
+
+Licensed under the Apache License, Version 2.0.
+
+This extension does not contain RadVeil itself. On first use it installs the
+separately distributed `radveil` Python package (Apache-2.0) from PyPI or from
+a wheel file the user provides. That package ships its own LICENSE, NOTICE and
+THIRD_PARTY_LICENSES.txt, covering the MediaPipe BlazeFace and Face Mesh model
+weights (Copyright Google LLC, Apache-2.0) and the SynthStrip model weights
+(Hoopes et al., MIT). If you publish results that use the brain segment,
+please cite Hoopes et al., NeuroImage 260 (2022) 119474.
+
+The images in docs/images are renders of 3D Slicer's public "MRHead" sample,
+which its donor gave to the 3D Slicer project to be used without
+restrictions. This repository contains no other imaging data; tests use
+synthetic phantoms.
+
+Names of third-party projects (3D Slicer, MediaPipe, SynthStrip, dlib) are used
+only to identify the software and data this extension works with and do not
+imply endorsement by their owners.

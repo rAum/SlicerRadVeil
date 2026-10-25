@@ -281,6 +281,13 @@ def test_series_names_never_reach_saved_report():
     assert "Doe" not in conversion.report_to_json(rep)
 
 
+def test_disclaimer_text():
+    d = conversion.DISCLAIMER
+    for phrase in ("not a medical device", "without warranty", "Review every output"):
+        assert phrase in d
+    assert json.loads(conversion.report_to_json({}, disclaimer=d))["disclaimer"] == d
+
+
 def test_mock_rejects_options_like_radveil():
     vol = mock_radveil.Volume.from_array(conversion.to_radveil_array(phantom()), np.eye(4))
     with pytest.raises(ValueError):

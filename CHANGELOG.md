@@ -18,6 +18,8 @@ First release.
 - Other series of the same session anonymized with the input's landmarks and
   re-checked with the face detector.
 - Plain-language verdict and JSON report; outputs never reuse the input name.
+- Disclaimer (aid, not a medical device, as is, without warranty) in the
+  panel, the module help and every saved report.
 - One-click install of the radveil package (Slicer's installer where
   available, or a wheel file for offline computers).
 - Works in Slicer 5.6 and later; CI runs the self-test in the latest Slicer
