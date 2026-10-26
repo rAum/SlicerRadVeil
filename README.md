@@ -3,12 +3,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/rAum/radveil-slicer/actions/workflows/ci.yml"><img src="https://github.com/rAum/radveil-slicer/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/rAum/SlicerRadVeil/actions/workflows/ci.yml"><img src="https://github.com/rAum/SlicerRadVeil/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="License: Apache-2.0"></a>
   <a href="https://github.com/rAum/radveil"><img src="https://img.shields.io/badge/powered%20by-RadVeil-4fd1bd" alt="Powered by RadVeil"></a>
 </p>
 
-# radveil-slicer
+# SlicerRadVeil
 
 3D Slicer extension for face and ear anonymization (defacing) of MRI and CT
 head volumes with [RadVeil](https://github.com/rAum/radveil).
@@ -50,7 +50,7 @@ search "RadVeil" → Install*, restart Slicer.
 The first time you click **Anonymize** the module offers to install the
 `radveil` Python package into Slicer's Python (`pip install "radveil>=0.1,<0.2"`).
 Prebuilt wheels exist for Windows x86-64, macOS (Intel and Apple Silicon) and
-Linux x86-64; no compiler, ML framework or model download is needed.
+Linux (x86-64 and ARM64); no compiler, ML framework or model download is needed.
 
 **Offline computers:** download the matching wheel on another machine
 (`pip download radveil --only-binary=:all: --python-version 3.12 --platform <tag>`,
@@ -146,9 +146,9 @@ RadVeil.json                 entry for Slicer/ExtensionsIndex (tracks `release`)
 ```
 
 - Try it without building: *Edit → Application Settings → Modules →
-  Additional module paths* → add `.../radveil-slicer/RadVeil`, restart. Or,
+  Additional module paths* → add `.../SlicerRadVeil/RadVeil`, restart. Or,
   in Slicer's Python console, without a restart:
-  `p = ".../radveil-slicer/tools/slicer_dev_setup.py"; exec(open(p).read(), {"__file__": p})`
+  `p = ".../SlicerRadVeil/tools/slicer_dev_setup.py"; exec(open(p).read(), {"__file__": p})`
 - Self-test in Slicer: *Developer mode* on, then **Reload and Test** in the
   module (uses the mock backend; set `RADVEIL_SLICER_TEST_REAL=1` to also run
   the real package on the MRHead sample).
@@ -195,7 +195,7 @@ pipeline, one-time setup and the Extensions Index submission.
 
 ## License
 
-Copyright 2026 Piotr Gródek and the radveil-slicer contributors. Licensed
+Copyright 2026 Piotr Gródek and the SlicerRadVeil contributors. Licensed
 under the [Apache License, Version 2.0](LICENSE); see also [NOTICE](NOTICE).
 
 The extension installs the separately distributed `radveil` package, which

@@ -4,6 +4,6 @@
   "build_subdirectory": ".",
   "category": "Utilities",
   "scm_revision": "release",
-  "scm_url": "https://github.com/rAum/radveil-slicer.git",
+  "scm_url": "https://github.com/rAum/SlicerRadVeil.git",
   "tier": 1
 }

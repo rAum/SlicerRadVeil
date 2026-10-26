@@ -6,7 +6,7 @@
 
 Please report vulnerabilities privately through GitHub:
 **Security → Report a vulnerability** on
-[rAum/radveil-slicer](https://github.com/rAum/radveil-slicer/security). Do not
+[rAum/SlicerRadVeil](https://github.com/rAum/SlicerRadVeil/security). Do not
 open a public issue.
 
 Please include the extension version (or commit), the Slicer version and

@@ -1,4 +1,4 @@
-# Building, testing and releasing radveil-slicer
+# Building, testing and releasing SlicerRadVeil
 
 ## How the extension reaches users
 
@@ -8,7 +8,7 @@
         ▼
  release.yml ── CI gate: unit tests + self-test inside Slicer Stable & Preview
         │        on Linux (the exact files the package ships) + real radveil
-        ├── GitHub release with radveil-slicer-v0.2.0.zip (manual/offline install)
+        ├── GitHub release with SlicerRadVeil-v0.2.0.zip (manual/offline install)
         └── fast-forwards the `release` branch to the tag
                  │
                  ▼
@@ -40,7 +40,8 @@ needed: this is a pure-Python extension.
 
 ## One-time setup
 
-1. Create `github.com/rAum/radveil-slicer`, push `main`.
+1. Create `github.com/rAum/SlicerRadVeil`, push `main`, and add the
+   `3d-slicer-extension` topic (About → Topics; the index checklist asks for it).
 2. **Settings → Actions → General → Workflow permissions:** "Read and write"
    and "Allow GitHub Actions to create and approve pull requests" (for the
    radveil bump PRs).
@@ -60,14 +61,14 @@ needed: this is a pure-Python extension.
 ### Optional: notify on radveil releases
 
 Add to radveil's `release.yml`, after publishing to PyPI, with a fine-grained
-token that has *Contents: read and write* on radveil-slicer stored as
+token that has *Contents: read and write* on SlicerRadVeil stored as
 `SLICER_RADVEIL_DISPATCH_TOKEN`:
 
 ```yaml
-      - name: Tell radveil-slicer
+      - name: Tell SlicerRadVeil
         env:
           GH_TOKEN: ${{ secrets.SLICER_RADVEIL_DISPATCH_TOKEN }}
-        run: gh api repos/rAum/radveil-slicer/dispatches -f event_type=radveil-released
+        run: gh api repos/rAum/SlicerRadVeil/dispatches -f event_type=radveil-released
 ```
 
 This needs the `radveil-watch` workflow, which is not set up yet.

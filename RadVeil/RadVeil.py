@@ -88,7 +88,7 @@ class RadVeil(ScriptedLoadableModule):
         self.parent.title = "RadVeil Defacing"
         self.parent.categories = ["Utilities"]
         self.parent.dependencies = []
-        self.parent.contributors = ["Piotr Gródek"]
+        self.parent.contributors = ["Piotr Gródek (independent)"]
         self.parent.helpText = """
 Removes the face (and optionally the ears) from MRI and CT head volumes so
 the scan cannot be recognized from a 3D rendering, using

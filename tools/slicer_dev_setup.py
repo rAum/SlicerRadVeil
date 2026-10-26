@@ -2,7 +2,7 @@
 
 Run once from Slicer's Python console (View -> Python Console):
 
-    p = "/path/to/radveil-slicer/tools/slicer_dev_setup.py"; exec(open(p).read(), {"__file__": p})
+    p = "/path/to/SlicerRadVeil/tools/slicer_dev_setup.py"; exec(open(p).read(), {"__file__": p})
 
 It adds <checkout>/RadVeil to Modules -> Additional module paths (kept across
 restarts), turns on Developer mode (Reload / Reload and Test buttons) and loads

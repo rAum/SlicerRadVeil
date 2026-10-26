@@ -33,11 +33,11 @@ jobs:
         with:
           python-version: "3.12"
       - run: python tools/stage_module.py --check
-      - run: python tools/stage_module.py stage --zip radveil-slicer-module.zip
+      - run: python tools/stage_module.py stage --zip SlicerRadVeil-module.zip
       - uses: actions/upload-artifact@v4
         with:
-          name: radveil-slicer-module
-          path: radveil-slicer-module.zip
+          name: SlicerRadVeil-module
+          path: SlicerRadVeil-module.zip
 
   slicer:
     name: Self-test in Slicer ${{ matrix.stability == 'release' && 'Stable' || 'Preview' }} (Linux)

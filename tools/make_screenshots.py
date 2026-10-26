@@ -2,7 +2,7 @@
 
 Run inside Slicer with the real radveil package installed:
 
-    Slicer --no-splash --additional-module-paths <radveil-slicer>/RadVeil \
+    Slicer --no-splash --additional-module-paths <SlicerRadVeil>/RadVeil \
            --python-script tools/make_screenshots.py
 
 Loads the public MRHead sample, runs RadVeil (face + ears, brain segment,
