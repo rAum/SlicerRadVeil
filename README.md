@@ -20,6 +20,9 @@ unchanged (bit-exact, same voxel type).
 
 ![How RadVeil anonymizes a head scan](docs/images/how-it-works.png)
 
+The extension contains one module, **RadVeil Defacing** (*Utilities*): it
+anonymizes the face and ears of a head volume and lets you review the result.
+
 **In Slicer you get:**
 
 - **One-click anonymization** of the face, the ears, or both: adaptive
