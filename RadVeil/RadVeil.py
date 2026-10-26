@@ -105,6 +105,11 @@ side in linked 3D views. Rotate them, and move <i>Skin threshold</i> to look
 for any remaining facial detail. <i>Add brain segment</i> shows the brain
 (blue) next to the changed region (amber).</li>
 </ol>
+A smoothed face can show concentric rings in 3D: they are the level steps of
+the heavily smoothed intensities (stored in the input's integer type), not
+leftover facial detail. The 3D views are not smoothed for display, so any
+detail that remains is visible.
+<br><br>
 RadVeil finds the face with a built-in face detector on 3D renders and
 accepts its result only when the detector no longer finds a face. Voxels
 outside the anonymized region are not changed.
